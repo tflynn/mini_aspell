@@ -35,4 +35,16 @@ describe "MiniAspell" do
     word, setting = spell_results.at(2)
     setting.should be_nil
   end
+  
+  it "should handle an array of words" do
+    text = %{The example is passing again, but are we done yet? Scroll up a few lines and take a look}
+    text_array = text.split(' ')
+    spell_results =  MiniAspell.check_spelling(text_array,'en')
+    #puts "spell_results #{spell_results.inspect}"
+    spell_results.each do |spell_result|
+      spell_result.at(1).should be_nil
+    end
+  end
+
+
 end

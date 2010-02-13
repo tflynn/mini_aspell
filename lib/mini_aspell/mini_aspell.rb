@@ -39,25 +39,34 @@ class MiniAspell
           next if stripped_chomped_line == ''
           words = line.chomp.split(' ')
           #puts "adding words to list #{words.inspect}"
-          clean_words = []
-          words.each do |word|
-            # Ignore words containing unicode characters
-            if word.length == word.jlength
-              clean_words << word
-            end
-          end
-          all_words.concat(clean_words)
+          all_words.concat(words)
         end
-      elsif text_to_check.find_of?(Array)
+      elsif text_to_check.kind_of?(Array)
         all_words = text_to_check
+      else
+        return nil
       end
-      return nil if all_words.empty?
+      clean_words = []
+      all_words.each do |word|
+        #puts "checking >>#{word}<< for unicode chars"
+        # Ignore words containing unicode characters
+        if word.length == word.jlength
+          #puts "No unicode chars so ok for word #{word}"
+          clean_words << word
+        else
+          #puts "found unicode char in word >>#{word}<<. Ignoring"
+        end
+      end
+      
+      return nil if clean_words.empty?
+      #puts "clean_words #{clean_words.inspect}"
       full_aspell_cmd = "#{aspell_binary_cmd} --lang=#{language} -a "
-      spell_results = MiniAspell.execute_cmd(full_aspell_cmd, all_words)
+      spell_results = MiniAspell.execute_cmd(full_aspell_cmd, clean_words)
       #puts "spell_results #{spell_results.inspect}"
       # Skip header line
       spell_results.shift
-      return MiniAspell.match_and_parse_inputs_and_outputs(all_words,spell_results)
+      
+      return MiniAspell.match_and_parse_inputs_and_outputs(clean_words,spell_results)
     end
 
     
