@@ -18,12 +18,12 @@ gem_spec = Gem::Specification.new do |s|
 
   s.test_files = FileList['test/**/*']
 
-  s.files = FileList["bin/*", 'lib/**/*.rb', 'README', 'doc/**/*.*']
+  #s.files = FileList["bin/*", 'lib/**/*.rb', 'README', 'doc/**/*.*']
+  s.files = FileList['lib/**/*.rb']
   s.require_paths << 'lib'
   
   s.bindir = "bin"
-  s.executables = ['ubsafe','ubsafe_file_exists','ubsafe_file_mtime','ubsafe_scp_cmd.expect','ubsafe_ssh_cmd.expect','ubsafer']
-  s.default_executable = "ubsafe"
+  s.executables = []
   
   #s.add_dependency("rspec", "= 1.2.9")
   # s.add_dependency("fastthread", "= 1.0.7")  # Patch for missing gem dependency in logging 0.9.4
