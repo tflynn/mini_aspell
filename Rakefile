@@ -5,7 +5,7 @@ require 'rake/testtask'
 require 'find'
 
 name = 'mini_aspell'
-version = '0.2'
+version = '0.3'
 
 gem_spec = Gem::Specification.new do |s|
   s.name = name

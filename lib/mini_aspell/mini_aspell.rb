@@ -11,17 +11,23 @@ class MiniAspell
     
   
     def check_for_aspell_binary
+      return @@aspell_binary unless @@aspell_binary.nil?
       results = nil
       begin
         results = `which aspell`.chomp
         if results.nil? or results == ''
           results = nil
         else
-          return results
+          if @@aspell_binary.nil?
+            @@aspell_binary = results
+          end
+          return @@aspell_binary
         end
       rescue Exception => ex
-        #TODO Some kind of notification
+        raise ex
       end
+      
+      raise Exception.new("MiniAspell: Unable to locate aspell binary ('which aspell' doesn't return a value)") if results.nil?
       
       return results
     end
